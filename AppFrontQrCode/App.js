@@ -1,7 +1,17 @@
 //App.js
 import React from 'react'
-import AppContainer from './navigation/index'
+import { AppRegistry } from 'react-native';
+import AppContainer from './navigation/index';
+import { Provider as PaperProvider } from 'react-native-paper';
 
-export default function App() {
-  return <AppContainer />
+export default class App extends React.Component {
+
+  render() {
+    return (
+      <PaperProvider>
+          <AppContainer />
+      </PaperProvider>
+      
+    );
+  }
 }

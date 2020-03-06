@@ -28,12 +28,12 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-// app.use(middleware.tokenCheck);
+app.use(middleware.tokenCheck);
 app.use(routes);
 
 
 app.listen(port, () => {
-    console.log(`Helper running on http://localhost/${port} D:`)
+    console.log(`Server running on http://localhost:${port} D:`)
 });
 
 module.exports = app;

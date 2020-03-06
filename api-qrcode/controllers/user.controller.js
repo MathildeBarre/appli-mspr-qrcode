@@ -7,33 +7,34 @@ const dao = require("../dao/user.dao");
 // ******** PROMOS ********
 
 const login = async (req, res, next) => {
-    // if user logged
-    // if (req.user && req.token) {
-    //     res.send({succes: true, token});
-    //     return;
-    // }
     try {
         const { email, password } = req.body;
+        console.log(email, password);
 
         const user = await User.findOne({email});
-        const goodPass = await bcrypt.compare(password, user.password);
+
 
         if (!user) {
-            return res.status(401).send({error: "Aucun compte ne correspond à cet email."});
+            return res.status(401).send({err_message: "Mauvais email ou mot-de-passe."});
         }
 
+        const goodPass = await bcrypt.compare(password, user.password);
+
         if (!password || !goodPass) {
-            return res.status(401).send({error: "Mauvais email ou mot-de-passe."});
+            return res.status(401).send({err_message: "Mauvais email ou mot-de-passe."});
         }
 
         jwt.sign({user}, "itsabigsecret", { expiresIn: "1h" }, (err, token) => {
             if (err) { console.log(err); }
-            res.status(200).send({tkn: token});
+            res.status(200).send({
+                tkn: token,
+                user: user.id
+            });
         });
 
     } catch (err) {
         console.log(err);
-        res.send(400).send(err);
+        return res.send(400).send(err);
     }
 
 };
