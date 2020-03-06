@@ -28,7 +28,8 @@ const login = async (req, res, next) => {
             if (err) { console.log(err); }
             res.status(200).send({
                 tkn: token,
-                user: user.id
+                user: user._id,
+                admin: user.admin
             });
         });
 

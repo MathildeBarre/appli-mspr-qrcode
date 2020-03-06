@@ -19,12 +19,12 @@ const createPromo = async (req, res, next) => {
     let promo = await dao.create(req.body);
     if (promo.name) {
         if (promo.name === "ValidationError" ) {
-            res.status(400).send({err: "Le mot est obligatoire."})
+            return res.status(400).send({err: "Le mot est obligatoire."})
         } else if (promo.name === "MongoError") {
-            res.status(400).send({err: "Ce mot existe déjà."})
+            return res.status(400).send({err: "Ce mot existe déjà."})
         }
     }
-    res.status(201).send({success: "La promo à bien été créé !"});
+    return res.status(201).send({success: "La promo à bien été créé !"});
 };
 
 const getPromo = async (req, res, next) => {

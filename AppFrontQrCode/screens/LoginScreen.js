@@ -21,7 +21,7 @@ export default class LoginScreen extends React.Component {
         connection_error: false
     };
 
-    handleSubmit = async (infos) => {
+    handleSubmit = async (infos, actions) => {
         if (infos.email.length > 0 && infos.password.length > 0) {
             axios.post('http://localhost:6507/api/users/login', {
                 email: infos.email,
@@ -33,7 +33,13 @@ export default class LoginScreen extends React.Component {
                     await AsyncStorage.setItem('jwt', res.data.tkn);
                     await AsyncStorage.setItem('userId', res.data.user);
 
-                    this.props.navigation.navigate('App')
+                    if (res.data.admin) {
+                        this.setState({visible: true});
+                        this.props.navigation.navigate('Admin')
+                    } else {
+                        this.props.navigation.navigate('App')
+                    }
+                    
 
                 } catch (err) {
                     this.setState({visible: true});
@@ -42,11 +48,13 @@ export default class LoginScreen extends React.Component {
                         this.setState({connect_err_message: 'La connection est impossible.'});
                     }
                     console.log(err);
+                    return;
                 }
             })
             .catch(err => {
                 this.setState({visible: true});
                 this.setState({err_message: err.response.data.err_message});
+                return;
             });
         }
     };
@@ -58,7 +66,7 @@ export default class LoginScreen extends React.Component {
         const validationSchema = Yup.object().shape({
             email: Yup.string()
             .label('Email')
-            .email('Veuillez entrer un email valide.')
+            .email('Veuillez saisir un email valide.')
             .required('Veuillez saisir votre email.'),
             password: Yup.string()
             .label('Password')
@@ -78,7 +86,11 @@ export default class LoginScreen extends React.Component {
 
                 <Formik
                     initialValues={{ email: '', password: '' }} 
-                    onSubmit={values => {this.handleSubmit(values)}}
+                    onSubmit={
+                        (values, actions) => {
+                            this.handleSubmit(values);
+                            setTimeout(() => actions.setSubmitting(false), 1000);
+                        }}
                     validationSchema={validationSchema}
                 >
                     {({ handleChange, handleSubmit, errors, isValid, isSubmitting, touched, handleBlur  }) => (
@@ -114,7 +126,7 @@ export default class LoginScreen extends React.Component {
                                     mode="contained"
                                     onPress={handleSubmit}
                                     disabled={!isValid || isSubmitting}
-                                    loading = { isSubmitting }
+                                    loading = { isSubmitting}
                                 >
                                     Se connecter
                                 </Button>

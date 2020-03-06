@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const routes = require("../api/index");
 const express = require('express');
 const bodyParser = require('body-parser');
-const middleware = require ("./middleware");
+const middleware = require("./middleware");
 
 const port = 6507;
 

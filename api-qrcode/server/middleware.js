@@ -2,14 +2,10 @@ const jwt = require("jsonwebtoken");
 
 const tokenCheck = (req, res ,next) => {
     if(req.path === '/api/users/login' || req.path === '/api/users/register') {
-        console.log(req.path);
         next();
     } else {
-        console.log(req.path);
-        console.log("Nop c'est là")
-        console.log(req.headers);
         let token = req.header('Authorization');
-        console.log(req.header('Authorization'));
+        console.log(token)
         
         if( !token ) {
             res.status(403).send('Forbidden');
@@ -23,17 +19,19 @@ const tokenCheck = (req, res ,next) => {
         
         try {
             jwt.verify(token, "itsabigsecret", (err, decoded) => {
-                if (err) { res.status(401).send("UnAuthorized"); }
-        
+                if (err) { 
+                    res.status(401).send("UnAuthorized");
+                    console.log(err);
+                }
+                console.log("DECODE", decoded)
                 req.decoded = decoded;
                 next();
             });
         } catch( error ) {
-            res.status(401).send('Unauthorized');
+            console.log(error)    
+            res.status(400).send("Accès non autorisé.");
             return;
         }
-        res.status(400).send("Accès non autorisé.");
-        return;   
     }
 };
 

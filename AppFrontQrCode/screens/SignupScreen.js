@@ -63,7 +63,7 @@ export default class SignupScreen extends React.Component {
         const validationSchema = Yup.object().shape({
             email: Yup.string()
             .label('Email')
-            .email('Veuillez entrer un email valide.')
+            .email('Veuillez saisir un email valide.')
             .required('Veuillez saisir votre email.'),
 
             password: Yup.string()
@@ -93,7 +93,11 @@ export default class SignupScreen extends React.Component {
 
                 <Formik
                     initialValues={{ email: '', password: '', lname: '', fname: '' }} 
-                    onSubmit={values => {this.handleSubmit(values)}}
+                    onSubmit={
+                        (values, actions) => {
+                            this.handleSubmit(values);
+                            setTimeout(() => actions.setSubmitting(false), 1000);
+                        }}
                     validationSchema={validationSchema}
                 >
                     {({ handleChange, handleSubmit, errors, isValid, isSubmitting, touched, handleBlur  }) => (
