@@ -22,6 +22,7 @@ export default class HomeScreen extends React.Component {
     _closeMenu = () => this.ListeningStateChangedEvent({ visible: false });
 
     handleSubmit = async (infos) => {
+        console.log('VOICI LES INFOS');
         console.log(infos);
         const token = await AsyncStorage.getItem('jwt');
 

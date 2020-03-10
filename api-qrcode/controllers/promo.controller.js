@@ -17,6 +17,8 @@ const getAllPromos = async (req, res, next) => {
 const createPromo = async (req, res, next) => {
  // create
     let promo = await dao.create(req.body);
+    console.log("*********************");
+    console.log(promo);
     if (promo.name) {
         if (promo.name === "ValidationError" ) {
             return res.status(400).send({err: "Le mot est obligatoire."})
