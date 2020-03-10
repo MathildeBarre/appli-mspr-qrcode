@@ -8,8 +8,8 @@ const tokenCheck = (req, res ,next) => {
         console.log(token)
         
         if( !token ) {
-            res.status(403).send('Forbidden');
-            return;
+            console.log("Ca passe pas")
+            return res.status(403).send('Forbidden');
         }
         
         if( token.startsWith('Bearer ') ) {
@@ -29,36 +29,12 @@ const tokenCheck = (req, res ,next) => {
             });
         } catch( error ) {
             console.log(error)    
-            res.status(400).send("Accès non autorisé.");
-            return;
+            return res.status(400).send("Accès non autorisé.");
         }
-    }
-};
-
-const admin = (req, res, next) => {
-
-    if (!req.user) {
-        res.status(401).send("UnAuthorized")
-    } else if (!req.user.admin ) {
-        res.status(401).send("UnAuthorized")
-    } else {
-
-        next();
-    }
-};
-
-const logged = (req, res, next) => {
-    if (!req.user) {
-        /*next({redirect; ''})*/
-    } else if (!req.token) {
-        /*next({redirect; ''})*/
-    } else {
-        next();
+        // next();
     }
 };
 
 module.exports = {
-    tokenCheck,
-    admin,
-    logged
+    tokenCheck
 };

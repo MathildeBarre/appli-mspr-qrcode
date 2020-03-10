@@ -32,7 +32,6 @@ let PromoSchema = mongoose.Schema({
 
     qr_infos : {
         type: Object,
-        required: true,
         default: {
             path: "/api/user/:id_user/promos",
             promo_id : {type: mongoose.Schema.Types.ObjectId, ref: 'Promo', index: true}

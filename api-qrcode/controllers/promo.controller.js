@@ -16,6 +16,7 @@ const getAllPromos = async (req, res, next) => {
 
 const createPromo = async (req, res, next) => {
  // create
+    console.log(req.body);
     let promo = await dao.create(req.body);
     if (promo.name) {
         if (promo.name === "ValidationError" ) {

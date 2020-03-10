@@ -6,10 +6,15 @@ const promos = async () => {
 };
 
 const create = async (promo) => {
+    let r = parseInt(promo.reduction);
+    console.log(r);
+    // console.log("**********************************************");
+    // console.log(promo);
+    // console.log("**********************************************");
     let newPromo = new Promo({
         name: promo.name,
         text: promo.text || '',
-        reduction: parseInt(promo.reduction),
+        reduction: r,
         start_date: promo.sdate,
         end_date: promo.edate,
     });
@@ -20,7 +25,10 @@ const create = async (promo) => {
 
     return newPromo.save()
         .then(promo => { return promo; })
-        .catch(err => { return err; })
+        .catch(err => { 
+            // console.log(err);
+            return err; 
+        })
 };
 
 const promo = async (id) => {
