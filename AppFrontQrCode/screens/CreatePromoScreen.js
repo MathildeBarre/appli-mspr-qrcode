@@ -26,26 +26,16 @@ export default class HomeScreen extends React.Component {
         console.log(infos);
         const token = await AsyncStorage.getItem('jwt');
 
-        // axios.post('http://localhost:6507/api/promos', {
-        //     name: infos.name,
-        //     text: infos.text,
-        //     reduction: infos.reduction,
-        //     start_date: infos.sdate,
-        //     end_date: infos.edate,
+        axios.post('http://localhost:6507/api/promos', {
+            name: infos.name,
+            text: infos.text,
+            reduction: infos.reduction,
+            start_date: infos.sdate,
+            end_date: infos.edate,
+        })
         // } /*{ headers: {
         //     'Au': `Bearer ${token}`
         // }}*/)
-        const headers = {
-            'Authorization': 'Bearer ' + token,
-            // 'Access-Control-Allow-Origin': '*',
-            // 'Allow-Control-Allow-Methods': '*'
-        };
-        axios({
-            method: 'POST',
-            url: 'http://localhost:6507/api/promos',
-            crossdomain: true,
-            headers: headers,
-        })
         .then(async res => {
             console.log("LA REPONSE")
             console.log(res)
