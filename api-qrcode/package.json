@@ -20,6 +20,7 @@
     "mongoose": "^5.9.2",
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
-    "qrcode": "^1.4.4"
+    "qrcode": "^1.4.4",
+    "react-native-custom-qr-codes-expo": "^2.2.0"
   }
 }

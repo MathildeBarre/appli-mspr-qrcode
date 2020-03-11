@@ -25,7 +25,7 @@ const createPromo = async (req, res, next) => {
             return res.status(400).send({err: "Ce mot existe déjà."})
         }
     }
-    return res.status(201).send({success: "La promo à bien été créé !"});
+    return res.status(201).send({success: "La promo à bien été créé !", _promo: promo});
 };
 
 const getPromo = async (req, res, next) => {

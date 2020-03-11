@@ -2,9 +2,11 @@ import React from 'react'
 
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { Appbar, Button, Paragraph, Menu, Divider, Provider, Title, Snackbar } from 'react-native-paper';
+import QRCode from 'react-native-qrcode-svg';
 
 import FormInput from '../components/FormInput'
 import ErrorHelper from '../components/ErrorHelper'
+import isertIf from "../components/ConditionalRender";
 
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
@@ -39,9 +41,12 @@ export default class HomeScreen extends React.Component {
             }
         })
         .then(async res => {
+            
+            this.setState({qr_infos: res.data._promo._id})
             this.setState({visible: true});
             this.setState({success_message: res.data.success});
             setTimeout(() =>  this.setState({visible: false}), 2000);
+            
         })
         .catch(err => {
             console.log(err)
@@ -85,6 +90,8 @@ export default class HomeScreen extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
                 <Title>Créer une Promotion</Title>
+
+                {this.state.qr_infos && <QRCode value={this.state.qr_infos}/>}
 
                 <Snackbar visible={this.state.visible} DURATION_SHORT>
                     { this.state.success_message || this.state.err_message }
