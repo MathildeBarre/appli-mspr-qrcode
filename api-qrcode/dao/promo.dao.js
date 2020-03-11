@@ -7,10 +7,7 @@ const promos = async () => {
 
 const create = async (promo) => {
     let r = parseInt(promo.reduction);
-    console.log(r);
-    // console.log("**********************************************");
-    // console.log(promo);
-    // console.log("**********************************************");
+
     let newPromo = new Promo({
         name: promo.name,
         text: promo.text || '',
@@ -21,12 +18,11 @@ const create = async (promo) => {
 
     newPromo.qr_infos.promo_id = newPromo.id;
 
-    console.log(newPromo);
+    // console.log(newPromo);
 
     return newPromo.save()
         .then(promo => { return promo; })
         .catch(err => { 
-            // console.log(err);
             return err; 
         })
 };

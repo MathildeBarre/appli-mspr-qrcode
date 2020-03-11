@@ -39,17 +39,6 @@ const getPromo = async (req, res, next) => {
     }
 };
 
-// const editPromo = async (req, res, next) => {
-//  // update
-//     if (req.params && req.body) {
-//         let word = await dao.update(req.params.id_pro, req.body);
-//         if (word.name === "CastError") {
-//             res.status(400).send({err : "Le mot est introuvable."})
-//         }
-//         res.status(200).send(word);
-//     }
-// };
-
 const disablePromo = async (req, res, next) => {
  // disable
     if (req.params && req.body) {
@@ -61,10 +50,6 @@ const disablePromo = async (req, res, next) => {
     }
 };
 
-// const enablePromo = async (req, res, next) => {
-//  // enable
-// };
-
 const deletePromo = async (req, res, next) => {
  // delPromo
     if (req.params) {
@@ -75,12 +60,6 @@ const deletePromo = async (req, res, next) => {
         res.status(200).send("La promo bien été supprimé.");
     }
 };
-
-// ******** QR CODES ********
-
-// const addQrCodeInfos = async (req, res, next) => {
-//  // addQrPromo
-// };
 
 module.exports = {
     getAllPromos,

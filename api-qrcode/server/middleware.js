@@ -20,7 +20,7 @@ const tokenCheck = (req, res ,next) => {
         try {
             jwt.verify(token, "itsabigsecret", (err, decoded) => {
                 if (err) { 
-                    res.status(401).send("UnAuthorized");
+                    res.status(401).send("Problème de token.");
                     console.log(err);
                 }
                 console.log("DECODE", decoded)

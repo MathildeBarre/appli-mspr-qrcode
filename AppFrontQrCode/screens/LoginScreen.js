@@ -28,18 +28,20 @@ export default class LoginScreen extends React.Component {
                 password: infos.password
             })
             .then(async res => {
-                console.log(res)
                 try {
                     await AsyncStorage.setItem('jwt', res.data.tkn);
                     await AsyncStorage.setItem('userId', res.data.user);
 
                     if (res.data.admin) {
+                        console.log("admin")
                         this.setState({visible: true});
                         this.props.navigation.navigate('Admin')
                     } else {
+                        console.log("Pas admin")
                         this.props.navigation.navigate('App')
                     }
                     
+                    console.log("toto")
 
                 } catch (err) {
                     this.setState({visible: true});
@@ -52,8 +54,9 @@ export default class LoginScreen extends React.Component {
                 }
             })
             .catch(err => {
-                this.setState({visible: true});
-                this.setState({err_message: err.response.data.err_message});
+                console.log(err)
+                // this.setState({visible: true});
+                // this.setState({err_message: err.response.data.err_message});
                 return;
             });
         }
@@ -109,7 +112,7 @@ export default class LoginScreen extends React.Component {
 
                             <View>
                                 <FormInput
-                                    type="pasword"
+                                    securityTextEntry="true"
                                     mode="outlined"
                                     name='password'
                                     onChangeText={handleChange('password')}
@@ -126,7 +129,7 @@ export default class LoginScreen extends React.Component {
                                     mode="contained"
                                     onPress={handleSubmit}
                                     disabled={!isValid || isSubmitting}
-                                    loading = { isSubmitting}
+                                    loading = {isSubmitting}
                                 >
                                     Se connecter
                                 </Button>
@@ -165,18 +168,3 @@ const styles = StyleSheet.create({
         marginTop: '1rem'
     }
 })
-
-// <View>
-// <TextInput
-// mode="outlined"
-// label="Email"
-// value={this.state.email}
-// onChangeText={email => this.setState({ email })}
-// />
-// <HelperText
-// type="error"
-// visible={true}
-// >
-// Email address is invalid!
-// </HelperText>
-// </View>

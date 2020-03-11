@@ -12,11 +12,13 @@ const FormInput = ({
     label,
     value,
     errorValue,
+    securityTextEntry,
     ...rest
   }) => (
     <View style={styles.inputContainer}>
       <TextInput
         {...rest}
+        securityTextEntry={securityTextEntry}
         mode={mode}
         name={name}
         label={label}

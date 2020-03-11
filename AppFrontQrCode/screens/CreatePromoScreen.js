@@ -22,7 +22,6 @@ export default class HomeScreen extends React.Component {
     _closeMenu = () => this.ListeningStateChangedEvent({ visible: false });
 
     handleSubmit = async (infos) => {
-        console.log(infos);
         const token = await AsyncStorage.getItem('jwt');
         const headers = {
             'Authorization': 'Bearer ' + token
@@ -30,7 +29,6 @@ export default class HomeScreen extends React.Component {
         axios({
             method: 'POST',
             url: 'http://localhost:6507/api/promos',
-            // crossdomain: true,
             headers: headers,
             data: {
                 name: infos.name,
@@ -41,34 +39,14 @@ export default class HomeScreen extends React.Component {
             }
         })
         .then(async res => {
-            console.log("LA REPONSE")
-            console.log(res)
-            // try {
-            //     await AsyncStorage.setItem('jwt', res.data.tkn);
-            //     await AsyncStorage.setItem('userId', res.data.user);
-
-            //     if (res.data.admin) {
-            //         this.props.navigation.navigate('Admin')
-            //     } else {
-            //         this.props.navigation.navigate('App')
-            //     }
-                
-
-            // } catch (err) {
-            //     this.setState({visible: true});
-            //     this.setState({connection_error: true});
-            //     if (this.state.connection_error) {
-            //         this.setState({connect_err_message: 'La connection est impossible.'});
-            //     }
-            //     console.log(err);
-            // }
+            this.setState({visible: true});
+            this.setState({success_message: res.data.success});
+            setTimeout(() =>  this.setState({visible: false}), 2000);
         })
         .catch(err => {
-            console.log("L'ERREUR'")
             console.log(err)
-            // console.log(err.response)
-            // this.setState({visible: true});
-            // this.setState({err_message: err.response.data.err_message});
+            this.setState({visible: true});
+            this.setState({err_message: err.data.err_message});
         });
         
     };
@@ -106,30 +84,18 @@ export default class HomeScreen extends React.Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                {/* <Appbar.Header>
-                    <Appbar.Action icon="dots-vertical" onPress={this._openMenu} />
-                </Appbar.Header>
-
-                <View style={styles.menu}>
-                    <Menu
-                        visible={this.state.visible}
-                        onDismiss={this._closeMenu}
-                    >
-                        <Menu.Item onPress={() => {}} icon="md-log-out" title="Déconnection" />
-                    </Menu>
-                </View> */}
-
                 <Title>Créer une Promotion</Title>
 
-                {/* <Snackbar visible={this.state.visible} DURATION_SHORT>
-                    {this.state.err_message || this.state.connect_err_message}
-                </Snackbar> */}
+                <Snackbar visible={this.state.visible} DURATION_SHORT>
+                    { this.state.success_message || this.state.err_message }
+                </Snackbar>
 
                 <Formik
                     initialValues={{ name: '', text: '', reduction: '', sdate: '', edate: '' }} 
                     onSubmit={
                         (values, actions) => {
                             this.handleSubmit(values);
+                            actions.resetForm();
                             setTimeout(() => actions.setSubmitting(false), 1000);
                         }}
                     validationSchema={validationSchema}
